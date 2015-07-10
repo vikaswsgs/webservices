@@ -269,6 +269,27 @@ for ($i = 0; $i < count($dataset); $i++) {
     
     }
     
+    
+    function getitems_list()
+    {
+       $data =mysql_query("SELECT items.name, items.id, items.price,categories.catname
+        FROM items
+        INNER JOIN categories
+        WHERE items.cat_id = categories.id
+        LIMIT 0 , 30");
+        
+        if(mysql_num_rows($data)>0) {
+         while($row=mysql_fetch_assoc($data)){
+            $rows[] = $row;
+           }
+             return array("items"=>$rows);  
+        }
+        else
+        {
+         return array("msg"=>"No Products found");
+        }
+    }
+    
       
     
     function checkhashSSHA($salt, $password) {
@@ -283,6 +304,8 @@ for ($i = 0; $i < count($dataset); $i++) {
         $hash = array("salt" => $salt, "encrypted" => $encrypted);
         return $hash;
     }
+    
+   
 
 
 ?>
