@@ -182,15 +182,14 @@ for ($i = 0; $i < count($dataset); $i++) {
       $data= mysql_query("select * from second_step where unique_id='".$uuid."'");
       if(mysql_num_rows($data)>0)
       {
-              $row = mysql_fetch_array($data);
-              $address = $row['address'];
-              $apt_number = $row['apt_number'];
-              $zipcode = $row['zipcode'];
-              $location = $row['location'];
-              $note = $row['note'];
-              $uuid = $row['unique_id'];
-              return array("address"=>$address,"apt_number"=>$apt_number,"zipcode"=>$zipcode,"location"=>$location,"note"=>$note,"unique_id"=>$uuid);
+             while($row = mysql_fetch_assoc($data))
+             {
+                 $rows[] = $row;
+             }
+             return array("msg"=>"success","address"=>$rows);  
       }
+              
+      
       else
       {
               return array("msg"=>"No Record Found");
@@ -241,7 +240,7 @@ for ($i = 0; $i < count($dataset); $i++) {
                       $lname = $row['lname'];
                       $cellphone = $row['cellphone'];
                       $uuid = $row['unique_id'];
-                      return array("email"=>$email,"fname"=>$fname,"lname"=>$lname,"cellphone"=>$cellphone," unique_id"=>$uuid);
+                      return array("msg"=>"success","email"=>$email,"fname"=>$fname,"lname"=>$lname,"cellphone"=>$cellphone," unique_id"=>$uuid);
               }
               else
               {
@@ -289,6 +288,46 @@ for ($i = 0; $i < count($dataset); $i++) {
          return array("msg"=>"No Products found");
         }
     }
+    
+    function forget_password($data)
+    {
+        $emailid = mysql_real_escape_string($data->email);
+        if(!empty($emailid)){
+                 $data = mysql_query("select * from users where email='".$emailid."'"); 
+                if(mysql_num_rows($data)>0){
+                $uuid = mysql_real_escape_string($data->unique_id);
+                $newpassword = mysql_real_escape_string($data->newpassword);
+                $repeatpassword = mysql_real_escape_string($data->repeatpassword);
+                        if($newpassword ==  $repeatpassword)
+                        {
+                                $hash = hashSSHA($newpassword);
+                                $encrypted_password = $hash["encrypted"]; // encrypted password
+                                $salt = $hash["salt"]; // salt
+                                $update = mysql_query("update users set `encrypted_password`='".$encrypted_password."', `salt`='".$salt."' where unique_id='".$uuid."'");  
+                                return array("unique_id"=>$uuid,"msg"=>"Update Successfully");                 
+                              
+                         }
+                         else
+                         {
+                           return array("msg"=>"New password and repeat password must be same");
+                         }
+                
+                }
+                else
+                {
+                  return array("msg"=>"Email id is not exist");
+                }
+        }
+        else
+        {
+         return array("msg"=>"Enter your email id");
+        }
+        
+     
+    }
+    
+    
+  
     
       
     
