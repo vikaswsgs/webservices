@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 10, 2015 at 06:25 PM
+-- Generation Time: Jul 16, 2015 at 03:55 PM
 -- Server version: 5.1.73
 -- PHP Version: 5.4.40
 
@@ -63,6 +63,26 @@ INSERT INTO `creditdetails` (`id`, `unique_id`, `number`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `faq`
+--
+
+CREATE TABLE IF NOT EXISTS `faq` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `ques` text NOT NULL,
+  `ans` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+
+--
+-- Dumping data for table `faq`
+--
+
+INSERT INTO `faq` (`id`, `ques`, `ans`) VALUES
+(12, 'hshsfdh', 'hsdfhshfhs');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `items`
 --
 
@@ -86,6 +106,28 @@ INSERT INTO `items` (`id`, `name`, `price`, `cat_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `preferences`
+--
+
+CREATE TABLE IF NOT EXISTS `preferences` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `unique_id` text NOT NULL,
+  `choice` text NOT NULL,
+  `treat` text NOT NULL,
+  `delivery` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `preferences`
+--
+
+INSERT INTO `preferences` (`id`, `unique_id`, `choice`, `treat`, `delivery`) VALUES
+(2, '559a1c91cbae37.01031188', 'unscented', 'We decide', 'Only to me later');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `second_step`
 --
 
@@ -98,36 +140,26 @@ CREATE TABLE IF NOT EXISTS `second_step` (
   `location` text,
   `note` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=73 ;
 
 --
 -- Dumping data for table `second_step`
 --
 
 INSERT INTO `second_step` (`id`, `unique_id`, `address`, `apt_number`, `zipcode`, `location`, `note`) VALUES
-(6, '559a1c91cbae37.01031188', 'addressfhf', 'apt_numberfhf', 'zipcode3232fhf', 'locationfhf', 'notefhf'),
-(7, '', 'ghdf', '', '45', 'rtr', 'jgj'),
-(8, '', 'dg', '', '45', 'fg', 'dvgfdg'),
-(9, '', 'fgh', '', '546', 'jd', 'b w '),
-(10, '', 'moh', '', '160059', 'chd', 'hey'),
-(11, '', 'moh', '', '160059', 'chd', 'hey t'),
-(12, '', 'chd', '', '160059', 'moh', 'hey'),
-(13, '', 'chd', '', '160059', 'moh', 'hiii'),
-(14, '', 'chd', '', '16059', 'moh', 'text2'),
-(15, '', 'moh', '', '160052', 'chds', 'texts444'),
-(16, '', 'chdi', '', '16050', 'mohi', 'ihis text'),
-(17, '', 'chd', '', '160054', 'mohali', 'heyss'),
-(18, '', 'chsndi', '', '160054', 'mohasli', 'thissss'),
-(19, '', 'mohsli', '', '160054', 'chasndi', 'this is note'),
-(20, '', 'chandigarh', '', '160059', 'mohali', 'its notes'),
-(21, '', 'f mohali', '', '16050', 's chd', 'inside note'),
-(22, '', 'mohali', '', '160059', 'chandigarh', 'this is final'),
-(23, '', 'abc', '', '123', 'def', 'ghi'),
-(24, '', 'my add 1', '', '546874', 'loca.22', 'dfhsif'),
-(25, '', ' Test add ', '', '1236456', 'testingh', 'Testyyyy'),
-(26, '', 'one add', 'two add', '35684874', '', 'tisj'),
-(27, '', 'line one add', 'line two add', '210505', 'Office', 'thisssssss'),
-(28, '', 'mohali', 'chd', '16059', 'Other', 'higyugf');
+(50, '', 'two', 'sec', '8789', 'Office', 'issss'),
+(47, '', 'esssd', 'aaaaaddd', '35', 'Home', 'ffsfs'),
+(48, '', 'address1', 'twooooo', '898', 'Home', 'jfhlshf'),
+(45, '', 'sfasf', 'ff', '345', 'Home', '45t'),
+(49, '', 'assd', 'fdds', '334', 'Home', 'fgfga'),
+(46, '', 'dsa', 'asd', '43', 'Home', 'dfsf'),
+(44, '', 'moahli', 'hh', '111', 'Other', 'fff'),
+(66, '559e6ca10ceed9.65891647', 'one data', 'jhuj', '2362', 'Office', 'mojhf'),
+(68, '559e6ca10ceed9.65891647', 'new', 'hjkj', '255', 'Other', 'ndguyfg'),
+(64, '559e6ca10ceed9.65891647', 'imagg', 'nomo', '44', 'Other', 'gdg'),
+(69, '559e6ca10ceed9.65891647', 'adddf', 'sdf', '46436', 'Office', 'w3rqgvw'),
+(71, '559e6ca10ceed9.65891647', 'adddf', 'sdf', '46436', 'Other', 'w3rqgvw'),
+(72, '559e6ca10ceed9.65891647', 'new', 'hjkj', '255', 'Office', 'ndguyfg');
 
 -- --------------------------------------------------------
 
@@ -158,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`uid`, `unique_id`, `fname`, `email`, `encrypted_password`, `salt`, `created_at`, `updated_at`, `lname`, `cellphone`) VALUES
 (4, '559a1c91cbae37.01031188', 'sandeep1', 'sandeep.shinedezign@gmail.com1', '+UlR+Rz8uaHx1p7bGVYwruCr2SkxNjZkYjBiNGUx', '166db0b4e1', '2015-07-06 11:43:37', NULL, 'sindhu', '987765443221'),
 (5, '559b7003c973e9.78114079', 'sandeep', 'sandeep.shinedezign@mail.com1', 'skrJV18/eJ23haw8tzWGIsbIo9A5NjI2ZmI0ZDJl', '9626fb4d2e', '2015-07-07 11:51:55', NULL, 'sindhu', 'sasas'),
-(6, '559b702521bc92.66734038', 'sandeep', 'sandeep.shinedezign@mail.com', 'sjbW1LB9PlqPWBTgk1Z+t67bUT04Mjc4NGFiOThm', '82784ab98f', '2015-07-07 11:52:29', NULL, 'sindhu', 'sasas'),
+(6, '559b702521bc92.66734038', 'sandeep', 'sandeep.shinedezign@gmail.com', '+gJ0NfT0SL1d3svwogEOiz8BUXMyZmI5MjI2ZWVh', '2fb9226eea', '2015-07-07 11:52:29', NULL, 'sindhu', 'sasas'),
 (7, '559b919e440656.74259708', 'test', 'test.shinedezign@gmail.com', 'RajUYdf0XKLHJkIKlVFgROa9dZ8wM2YwZGQzZTk5', '03f0dd3e99', '2015-07-07 14:15:18', NULL, 'user', '8888888888'),
 (8, '559b95cbbccfe9.22372321', 'test1', 'test.shinedezign@gmail.com1', 'at3swZpRYl5R8i+tJi+NWjGUkIA5ZDZjNzQ4ZTU4', '9d6c748e58', '2015-07-07 14:33:07', NULL, 'user1', '88888888881'),
 (9, '559d0bf7ca3be8.94239534', '', 'jdfh@gmail.com', 'ywXiqdJaBRZkRt8JE55LAOx2ubg5ZDQyMjAwZjA0', '9d42200f04', '2015-07-08 17:09:35', NULL, '', ''),

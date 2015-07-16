@@ -67,7 +67,7 @@ for ($i = 0; $i < count($dataset); $i++) {
 }
 
 
-  
+  /* ================================================= For Login  =========================================*/
 
      function login($data) {
         $email = mysql_real_escape_string($data -> email);
@@ -107,6 +107,7 @@ for ($i = 0; $i < count($dataset); $i++) {
 
      }
         
+    /* ================================================= For Register  =========================================*/
         
         
     function register($data) {
@@ -132,11 +133,7 @@ for ($i = 0; $i < count($dataset); $i++) {
                         // check for successful stor
                          
                         if ($result) {
-                            // get user details 
-                            //$uid = mysql_insert_id(); // last inserted id
-                           // $result = mysql_query("SELECT * FROM users WHERE uid = $uid");
-                            // return user details
-                            return array("unique_id"=>$uuid,"msg"=>"create account");
+                             return array("unique_id"=>$uuid,"msg"=>"create account");
                         } else {
                            return array("msg"=>"Error occured in registration");
                         }
@@ -149,6 +146,9 @@ for ($i = 0; $i < count($dataset); $i++) {
         }
     
     } 
+    
+    
+  /* ================================================= For Update Address  =========================================*/
     
     function update_address($data) {
         $address = mysql_real_escape_string($data->address);
@@ -177,6 +177,8 @@ for ($i = 0; $i < count($dataset); $i++) {
     
     } 
     
+   /* ================================================= Get Multiple Records For Address  =========================================*/ 
+    
     function getaddress_data($data){
       $uuid = mysql_real_escape_string($data->unique_id); 
       $data= mysql_query("select * from second_step where unique_id='".$uuid."'");
@@ -198,22 +200,32 @@ for ($i = 0; $i < count($dataset); $i++) {
     }
     
     
-    function credit_details($data){
-        $number = mysql_real_escape_string($data->number); 
-        $uuid = mysql_real_escape_string($data->unique_id); 
-        $data =mysql_query("select * from creditdetails where unique_id='".$uuid."'");
-        $no_of_rows = mysql_num_rows($data);
-        if ($no_of_rows > 0) {
-        $update =mysql_query("update creditdetails set `number`='".$number."' where unique_id='".$uuid."' ");
-          return array("msg"=>"update successfully");
-        }
-        else{
-        $insert = mysql_query("insert into creditdetails (unique_id,number) values ('".$uuid."','".$number."')");
-          return array("msg"=>"insert successfully");
-        }
+    
+     /* ================================================= Get Unique Address  =========================================*/ 
+    
+    function get_unique_address_data($data){
+      $uuid = mysql_real_escape_string($data->unique_id);
+      $address_id = mysql_real_escape_string($data->id); 
+      $data= mysql_query("select * from second_step where unique_id='".$uuid."' && id='".$address_id."'");
+      if(mysql_num_rows($data)>0)
+      {
+             while($row = mysql_fetch_assoc($data))
+             {
+                 $rows[] = $row;
+             }
+             return array("msg"=>"success","address"=>$rows);  
+      }
+              
+      
+      else
+      {
+              return array("msg"=>"No Record Found");
+      }
+      
     }
-    
-    
+   
+  /* ================================================= Delete All Records for address  =========================================*/  
+      
     function delete_address($data){
       $uuid = mysql_real_escape_string($data->unique_id);
       $rec = mysql_query("select * from second_step where unique_id='".$uuid."'"); 
@@ -228,6 +240,26 @@ for ($i = 0; $i < count($dataset); $i++) {
       }
     }
     
+    
+ /* ================================================= Delete Particular Records for address  =========================================*/  
+      
+    function delete_unique_address($data){
+      $uuid = mysql_real_escape_string($data->unique_id);
+      $address_id = mysql_real_escape_string($data->id);
+      $rec = mysql_query("select * from second_step where unique_id='".$uuid."' && id ='".$address_id."'"); 
+      if(mysql_num_rows($rec)>0)
+      {
+       $del = mysql_query("Delete from second_step where unique_id='".$uuid."' && id ='".$address_id."'");
+       return array("msg"=>"Delete successfully");
+      }
+      else
+      {
+       return array("msg"=>"No Record Found");
+      }
+    }
+    
+   
+   /* ================================================= Get User Account Details  =========================================*/    
     
     function getuseraccount_details($data){
               $uuid = mysql_real_escape_string($data->unique_id); 
@@ -249,6 +281,7 @@ for ($i = 0; $i < count($dataset); $i++) {
     
     }
     
+ /* ================================================= Update User Account Details =========================================*/   
     
     function updateuseraccount_details($data){    
         $email = mysql_real_escape_string($data->email);
@@ -267,21 +300,20 @@ for ($i = 0; $i < count($dataset); $i++) {
         }
     
     }
+
+  /* ================================================= Get Items List =========================================*/    
     
-    
-    function getitems_list()
-    {
+    function getitems_list(){
        $data =mysql_query("SELECT items.name, items.id, items.price,categories.catname
         FROM items
         INNER JOIN categories
-        WHERE items.cat_id = categories.id
-        LIMIT 0 , 30");
+        WHERE items.cat_id = categories.id");
         
         if(mysql_num_rows($data)>0) {
          while($row=mysql_fetch_assoc($data)){
             $rows[] = $row;
            }
-             return array("items"=>$rows);  
+             return array("msg"=>"success","items"=>$rows);  
         }
         else
         {
@@ -289,8 +321,9 @@ for ($i = 0; $i < count($dataset); $i++) {
         }
     }
     
-    function forget_password($data)
-    {
+   /* ================================================= Forget Password =========================================*/   
+    
+    function forget_password($data){
         $emailid = mysql_real_escape_string($data->email);
         if(!empty($emailid)){
                  $data = mysql_query("select * from users where email='".$emailid."'"); 
@@ -327,14 +360,33 @@ for ($i = 0; $i < count($dataset); $i++) {
     }
     
     
-  
+     /* ================================================= Get Faq Questions =========================================*/
+     
+     function faq()
+     {
+       $data =mysql_query("SELECT * from faq");        
+        if(mysql_num_rows($data)>0) {
+         while($row=mysql_fetch_assoc($data)){
+            $rows[] = $row;
+           }
+             return array("msg"=>"success","data"=>$rows);  
+        }
+        else
+        {
+         return array("msg"=>"No faq questions there");
+        }
+     }
     
-      
+  
+    /* ================================================= Check password =========================================*/   
+   
     
     function checkhashSSHA($salt, $password) {
        $hash = base64_encode(sha1($password . $salt, true) . $salt);
        return $hash;
     }
+    
+    /* ================================================= Generate password =========================================*/     
 
     function hashSSHA($password) {
         $salt = sha1(rand());
