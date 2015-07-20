@@ -376,6 +376,148 @@ for ($i = 0; $i < count($dataset); $i++) {
          return array("msg"=>"No faq questions there");
         }
      }
+     
+     
+     /*======================================================= Generate Share Code  ================================*/
+     
+     function share_code(){
+      $code = uniqid ();
+      $uuid = mysql_real_escape_string($data->unique_id);
+      $data = mysql_query("select * from share_code where unique_id='".$uuid."'");
+      if(mysql_num_rows($data)>0){
+      $rec = mysql_fetch_array($data);
+      $code = $rec['code'];
+      $uuid = $rec['unique_id'];
+      $id = $rec['id'];
+         return array("share_code_id"=>$id,"unique_id"=>$uuid,"code"=>$code,"msg"=>"Already Added"); 
+      }
+      else{
+      $insert = mysql_query("insert into share_code(unique_id,code) values('".$uuid."','".$code."')");
+      if($insert){       
+                    $id = mysql_insert_id(); // last inserted id
+                    $result = mysql_query("SELECT * FROM share_code WHERE id = '".$id."'");
+                    $rec = mysql_fetch_array($result);
+                    $code = $rec['code'];
+                    $uuid = $rec['unique_id'];
+                    $id = $rec['id'];
+                    return array("share_code_id"=>$id,"unique_id"=>$uuid,"code"=>$code,"msg"=>"Added Successfully");      
+                }
+          }    
+      }   
+     
+    
+    /*======================================================= Generate Order ================================*/
+    
+    
+    function generate_order($data){
+             $payid = mysql_real_escape_string($data->id);
+             if(!empty($payid)){
+                $unique_id = mysql_real_escape_string($data->unique_id);
+                $status = mysql_real_escape_string($data->state);
+                $time = mysql_real_escape_string($data->create_time);
+                $desc = mysql_real_escape_string($data->short_description);
+                $amnt = mysql_real_escape_string($data->amount);
+                $currency = mysql_real_escape_string($data->currency_code);               
+                $insert = mysql_query("INSERT INTO `order` (`unique_id` ,`status` ,`pay_id` ,`time` ,`desc` ,`amount` ,`currency`) VALUES ('".$unique_id."', '".$status."', '".$payid."', '".$time."', '".$desc."', '".$amnt."', '".$currency."')");
+                if($insert)
+                {
+                      $id = mysql_insert_id();                 
+                      $send_referal=mysql_query("select * from referal_table where use_referal ='".$unique_id."'");
+                      if(mysql_num_rows($send_referal)>0) {
+                      $update = mysql_query("update referal_table set `send_status `='Approved' where use_referal='".$unique_id."'"); 
+                      
+                       /* ============= send mail to sender  ============= */
+                       
+                                $rec = mysql_fetch_array($send_referal);
+                                $send_referal_id =  $rec['send_referal'];
+                                $getemailid  = mysql_query("select * from users where unique_id='".$send_referal_id."'");
+                                $get_sender_emailid = mysql_fetch_array($getemailid);
+                                
+                                $to      = $get_sender_emailid['email'];
+                                $subject = '$25 sent';
+                                $message = 'you can use $25 in the washio';
+                                $header = "From:washio@somedomain.com \r\n";
+                                mail($to, $subject, $message, $header);                     
+                               } 
+                                return array("order_id"=>$id,"msg"=>"Order has been generated");   
+                }
+
+              
+             }
+             else
+             {
+               return array("msg"=>"There is an error .Order did not generate");  
+             }
+    }
+    
+   
+   
+   /*============================================= Referal Code  ==================================================*/
+   
+      
+      function referal_code($data){ 
+      $referal_code = mysql_real_escape_string($data->code); //share_code
+      $use_referal = mysql_real_escape_string($data->unique_id); //loggedinuser
+    
+      $data = mysql_query("select * from share_code where code='".$referal_code."'");
+      $getdata=mysql_fetch_array($data);
+      $send_referal = $getdata['unique_id'];
+      
+     
+              if(mysql_num_rows($data)>0){
+              
+               /* =========== check share code use or not ==========*/
+      
+                         
+               $check = mysql_query("select * from referal_table where use_referal='".$use_referal."' && send_referal='".$send_referal."' ");
+               if(mysql_num_rows($check)>0){
+                   return array("msg"=>"You have already use that share code");  
+               }
+               else{              
+               
+               $send_referal_emailid = mysql_query("select * from users where unique_id='".$send_referal."'");
+               $send=mysql_fetch_array($send_referal_emailid);
+             
+             
+                $to      = $send['email'];
+                $subject = '$25 sent';
+                $message = 'you can use $25 in the washio';
+                $header = "From:washio@somedomain.com \r\n";
+                mail($to, $subject, $message, $header);
+             
+             
+             
+             
+               
+               /*====================== use share code ================== */
+                    
+              
+               $use_referal_emailid = mysql_query("select * from users where unique_id='".$use_referal."'");
+               $rec=mysql_fetch_array($use_referal_emailid);
+               $to1 = $rec['email'];
+               $subject1 = '$25 sent';
+               $message1= 'you can use $25 in the washio';
+               $headers1 = "From:washio@somedomain.com \r\n";
+               mail($to1,$subject1,$message1,$headers1); 
+               
+               /* ======================= insert into referal table  ===================*/
+           
+               
+               $data  = mysql_query("insert into `referal_table` (`use_referal`,`use_status`,`send_referal`,`send_status`) values ('".$use_referal."','Approved','".$send_referal."','Pending')");
+               
+                return array("msg"=>"Mail sent Successfully");  
+               
+               }
+               
+               
+              }
+              else
+              {
+                return array("msg"=>"Share Code doesn't Exist");  
+              }
+   
+     }
+    
     
   
     /* ================================================= Check password =========================================*/   

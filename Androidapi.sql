@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 16, 2015 at 03:55 PM
+-- Generation Time: Jul 20, 2015 at 05:58 PM
 -- Server version: 5.1.73
 -- PHP Version: 5.4.40
 
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `catname` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `categories`
@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
 
 INSERT INTO `categories` (`id`, `catname`) VALUES
 (1, 'Wash and Fold'),
+(7, 'Household'),
 (2, 'Dry Cleanings'),
 (5, 'launder and press');
 
@@ -71,13 +72,16 @@ CREATE TABLE IF NOT EXISTS `faq` (
   `ques` text NOT NULL,
   `ans` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `faq`
 --
 
 INSERT INTO `faq` (`id`, `ques`, `ans`) VALUES
+(15, 'hnbxvcbnvcb', 'bvnbmbnmb'),
+(14, 'hfghgcfhvf', 'nbcvnbcvbfnv'),
+(13, 'hgdsfhdhyfgshfiii', 'hghnfgg'),
 (12, 'hshsfdh', 'hsdfhshfhs');
 
 -- --------------------------------------------------------
@@ -92,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `price` double(10,2) NOT NULL,
   `cat_id` int(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=72 ;
 
 --
 -- Dumping data for table `items`
@@ -101,7 +105,94 @@ CREATE TABLE IF NOT EXISTS `items` (
 INSERT INTO `items` (`id`, `name`, `price`, `cat_id`) VALUES
 (1, 'Dress Pants', 5.99, 5),
 (2, 'Jeans', 4.99, 2),
-(3, 'Dresses', 8.00, 1);
+(3, 'Dresses', 8.00, 1),
+(6, 'Wash and Fold', 1.39, 1),
+(7, 'Blouses', 4.99, 2),
+(9, 'Pants', 4.99, 2),
+(10, 'Dry Cleaned Dress Shirt', 4.99, 2),
+(11, 'Dress Pants', 4.99, 2),
+(12, 'Dresses', 8.75, 2),
+(13, 'Ties', 3.99, 2),
+(14, 'Jackets', 8.99, 2),
+(15, 'Sweaters', 5.99, 2),
+(16, 'Aprons', 4.99, 2),
+(17, 'Jump Suits', 7.99, 2),
+(18, 'Scarves', 4.99, 2),
+(19, 'Skirts', 4.99, 2),
+(20, 'Cardigans', 6.99, 2),
+(21, 'Silk - Surcharge', 1.50, 2),
+(22, 'Cashmere - Surcharge', 1.50, 2),
+(23, 'Shorts', 4.99, 2),
+(24, 'Vests', 4.99, 2),
+(25, 'Windbreakers', 12.99, 2),
+(26, 'Trench Coats', 12.99, 2),
+(27, 'Bathrobe', 9.99, 2),
+(28, 'Pea Coats', 12.99, 2),
+(29, '3/4 Coats', 12.99, 2),
+(30, 'Rain Coats', 12.99, 2),
+(31, 'Leggings', 4.99, 2),
+(32, 'Sweatshirt', 4.99, 2),
+(33, 'Sweatpants', 4.99, 2),
+(34, 'Overalls', 8.99, 2),
+(35, 'Handkerchiefs', 3.99, 2),
+(36, 'Pajamas', 4.99, 2),
+(37, 'Nightgown', 6.99, 2),
+(38, 'Laundered Shirt', 1.99, 5),
+(39, 'Comforters - Double', 20.99, 7),
+(40, 'Comforters - Twin', 18.99, 7),
+(41, 'Comforters - Queen', 23.99, 7),
+(42, 'Comforters - King', 27.99, 2),
+(43, 'Comforters - King', 27.99, 7),
+(44, 'Bedspreads - Double', 18.99, 7),
+(45, 'Bedspreads - King', 24.99, 7),
+(46, 'Bedspreads - Twin', 17.99, 7),
+(47, 'Bedspreads - Queen', 21.99, 7),
+(48, 'Bath Mats', 4.99, 7),
+(49, 'Blankets - Large', 13.99, 7),
+(50, 'Blankets - Small', 11.99, 7),
+(51, 'Blankets - Medium', 12.99, 7),
+(52, 'Duvet Covers', 19.99, 7),
+(53, 'Sheets', 11.99, 7),
+(54, 'Mattress Pads', 16.99, 7),
+(55, 'Mattress Covers', 12.99, 7),
+(56, 'Pillow Cases', 5.99, 7),
+(57, 'Sleeping Bag', 14.99, 7),
+(58, 'Place Mats/Napkins', 4.99, 7),
+(59, 'Tablecloths - Large', 15.99, 7),
+(60, 'Tablecloths - Medium', 12.99, 7),
+(61, 'Tablecloths - Small', 9.99, 7),
+(62, 'Cushion Covers - Large', 49.99, 7),
+(63, 'Cushion Covers - Medium', 29.99, 7),
+(64, 'Cushion Covers - Small', 15.99, 7),
+(65, 'Pillow', 8.00, 7),
+(66, 'Curtain', 15.00, 7),
+(67, 'Curtain', 15.00, 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order`
+--
+
+CREATE TABLE IF NOT EXISTS `order` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `unique_id` text NOT NULL,
+  `status` text NOT NULL,
+  `pay_id` text NOT NULL,
+  `time` text NOT NULL,
+  `desc` text NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `currency` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`id`, `unique_id`, `status`, `pay_id`, `time`, `desc`, `amount`, `currency`) VALUES
+(1, '559b702521bc92.66734038', 'Approved', 'PAY-6PU626847B294842SKPEWXHY', '2014-07-18T18:46:55Z', 'asaS', 1.75, 'USD'),
+(2, '559b702521bc92.66734038', 'Approved', 'PAY-6PU626847B294842SKPEWXHY', '2014-07-18T18:46:55Z', 'aSA', 1.75, 'USD');
 
 -- --------------------------------------------------------
 
@@ -128,6 +219,29 @@ INSERT INTO `preferences` (`id`, `unique_id`, `choice`, `treat`, `delivery`) VAL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `referal_table`
+--
+
+CREATE TABLE IF NOT EXISTS `referal_table` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `use_referal` text NOT NULL,
+  `use_status` text NOT NULL,
+  `send_referal` text NOT NULL,
+  `send_status` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+
+--
+-- Dumping data for table `referal_table`
+--
+
+INSERT INTO `referal_table` (`id`, `use_referal`, `use_status`, `send_referal`, `send_status`) VALUES
+(17, '559e6ca10ceed9.65891647', 'Approved', '559b702521bc92.66734038', 'Pending'),
+(16, '559e6b4da35b49.88416610', 'Approved', '559b702521bc92.66734038', 'Pending');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `second_step`
 --
 
@@ -140,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `second_step` (
   `location` text,
   `note` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=73 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=87 ;
 
 --
 -- Dumping data for table `second_step`
@@ -154,12 +268,28 @@ INSERT INTO `second_step` (`id`, `unique_id`, `address`, `apt_number`, `zipcode`
 (49, '', 'assd', 'fdds', '334', 'Home', 'fgfga'),
 (46, '', 'dsa', 'asd', '43', 'Home', 'dfsf'),
 (44, '', 'moahli', 'hh', '111', 'Other', 'fff'),
-(66, '559e6ca10ceed9.65891647', 'one data', 'jhuj', '2362', 'Office', 'mojhf'),
-(68, '559e6ca10ceed9.65891647', 'new', 'hjkj', '255', 'Other', 'ndguyfg'),
-(64, '559e6ca10ceed9.65891647', 'imagg', 'nomo', '44', 'Other', 'gdg'),
-(69, '559e6ca10ceed9.65891647', 'adddf', 'sdf', '46436', 'Office', 'w3rqgvw'),
-(71, '559e6ca10ceed9.65891647', 'adddf', 'sdf', '46436', 'Other', 'w3rqgvw'),
-(72, '559e6ca10ceed9.65891647', 'new', 'hjkj', '255', 'Office', 'ndguyfg');
+(84, '559e6ca10ceed9.65891647', 'Address 1 test', 'address test', '111111', 'Office', 'Hello'),
+(83, '', 'dd', 'ss', '2312', 'Home', 'ers');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `share_code`
+--
+
+CREATE TABLE IF NOT EXISTS `share_code` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `unique_id` text NOT NULL,
+  `code` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `share_code`
+--
+
+INSERT INTO `share_code` (`id`, `unique_id`, `code`) VALUES
+(2, '559b702521bc92.66734038', '55accf4f41339');
 
 -- --------------------------------------------------------
 
@@ -181,7 +311,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`uid`),
   UNIQUE KEY `unique_id` (`unique_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Dumping data for table `users`
@@ -210,4 +340,5 @@ INSERT INTO `users` (`uid`, `unique_id`, `fname`, `email`, `encrypted_password`,
 (23, '559dfa15efedc7.35793490', '', 'gh', 'sEykbIQ2VdqTI41+ClKq3PrK5d5jNjA0MjA2MDU1', 'c604206055', '2015-07-09 10:05:33', NULL, '', ''),
 (24, '559dfb0573ef73.17422163', '', 'vc', 'Qc2PXoSuenXLo0qjMyaIcAE95wNiNzNmYzQwZTc1', 'b73fc40e75', '2015-07-09 10:09:33', NULL, '', ''),
 (25, '559e6b4da35b49.88416610', '', 'sampreet.shinedezign@gmail.com', 'HsX37xMo0/xTEy4x3zhrrZhKXcg3YzkyYWRmMGE4', '7c92adf0a8', '2015-07-09 18:08:37', NULL, '', ''),
-(26, '559e6ca10ceed9.65891647', '', 'sampreet@gmail.com', 'KIf55QZNUv2XXehqpyVWoq1cszVkMmZkNzc0ZDcx', 'd2fd774d71', '2015-07-09 18:14:17', NULL, '', '');
+(26, '559e6ca10ceed9.65891647', 'Sampreet', 'sampreet@gmail.com', 'KIf55QZNUv2XXehqpyVWoq1cszVkMmZkNzc0ZDcx', 'd2fd774d71', '2015-07-09 18:14:17', NULL, 'Singh', '8427100930'),
+(27, '55a8c6a0b1da02.97980482', '', 'sampreet.shinedezign', 'ar7Z7e6qvcdLD8zmwSgtjigRV7w4MGU1YjdjNjgy', '80e5b7c682', '2015-07-17 14:40:56', NULL, '', '');
