@@ -137,7 +137,7 @@ for ($i = 0; $i < count($dataset); $i++) {
                                 $to      = $email;
                                 $subject = 'New Account has been Created';
                                 $message = 'Welcome in the Mucky Laundry :-)';
-                                $header = "From:washio@somedomain.com \r\n";
+                                $header = "From:info@hooduku.com \r\n";
                                 mail($to, $subject, $message, $header); 
                              return array("unique_id"=>$uuid,"msg"=>"create account","status"=>"success");
                         } else {
@@ -453,14 +453,16 @@ for ($i = 0; $i < count($dataset); $i++) {
                 $repeat = mysql_real_escape_string($data->repeat);
                 $address_id = mysql_real_escape_string($data->address_id);
                 $cleaning_notes = mysql_real_escape_string($data->cleaning_notes);
+                $credit = mysql_real_escape_string($data->credit_before_order);
+                $amnt_payable = mysql_real_escape_string($data->amount_payable);
                                
-               $insert =  mysql_query("INSERT INTO `order` (`unique_id` ,`status` ,`pay_id` ,`time` ,`desc` ,`amount` ,`currency`,`drop_off_date`,`drop_off_time`,`pick_up_date`,`pick_up_time`,`repeat`,`address_id`,`cleaning_notes`) VALUES ('".$unique_id."', '".$status."', '".$payid."', '".$time."', '".$desc."', '".$amnt."', '".$currency."','".$drop_off_date."','".$drop_off_time."','".$pick_up_date."','".$pick_up_time."','".$repeat."','".$address_id."','".$cleaning_notes."')");
+               $insert =  mysql_query("INSERT INTO `order` (`unique_id` ,`status` ,`pay_id` ,`time` ,`desc` ,`amount` ,`currency`,`drop_off_date`,`drop_off_time`,`pick_up_date`,`pick_up_time`,`repeat`,`address_id`,`cleaning_notes`,`credit`,`amnt_payable`) VALUES ('".$unique_id."', '".$status."', '".$payid."', '".$time."', '".$desc."', '".$amnt."', '".$currency."','".$drop_off_date."','".$drop_off_time."','".$pick_up_date."','".$pick_up_time."','".$repeat."','".$address_id."','".$cleaning_notes."','".$credit."','".$amnt_payable."')");
                 if($insert)
                 {
                              $send_referal=mysql_query("select * from referal_table where use_referal ='".$unique_id."'");
                      
                               if(mysql_num_rows($send_referal)>0) {
-                              $update = mysql_query("update referal_table set `send_status `='Approved' where use_referal='".$unique_id."'"); 
+                              $update = mysql_query("update `referal_table` set `send_status`='Approved' where use_referal='".$unique_id."'");  
                       
                        /* ============= send mail to sender  ============= */
                        
@@ -472,7 +474,7 @@ for ($i = 0; $i < count($dataset); $i++) {
                                 $to      = $get_sender_emailid['email'];
                                 $subject = '$25 credit to your account';
                                 $message = 'Hi.. Now $25 is credit to your account.';
-                                $header = "From:washio@somedomain.com \r\n";
+                                $header = "From:info@hooduku.com \r\n";
                                 mail($to, $subject, $message, $header);                     
                                } 
                                                      
@@ -540,7 +542,7 @@ for ($i = 0; $i < count($dataset); $i++) {
                $to1 = $rec['email'];
                $subject1 = '$25 sent before order ';
                $message1= 'I have referral you and you can use $25 in the washio';
-               $headers1 = "From:washio@somedomain.com \r\n";
+               $headers1 = "From:info@hooduku.com \r\n";
                mail($to1,$subject1,$message1,$headers1); 
                
                /* ======================= insert into referal table  ===================*/
@@ -607,7 +609,7 @@ for ($i = 0; $i < count($dataset); $i++) {
                    $data =mysql_query("select * from share_code where unique_id='".$uuid."'");
                    $rec = mysql_fetch_array($data);
            
-                   $data1  = mysql_query("select * from referal_table where use_referal='".$logedinuser."' && send_status='Pending'");
+                   $data1  = mysql_query("select * from referal_table where use_referal='".$uuid."' && send_status='Pending'");
                    if(mysql_num_rows($data1)>0)
                    {
                     $num1 =  mysql_num_rows($data1);
@@ -615,7 +617,7 @@ for ($i = 0; $i < count($dataset); $i++) {
                     return array("credit"=>$credit,"msg"=>"success","status"=>"success");
                    }
                    
-                  else if($data1  = mysql_query("select * from referal_table where send_referal='".$logedinuser."' && send_status='Approved'"))
+                  else if($data1  = mysql_query("select * from referal_table where send_referal='".$uuid."' && send_status='Approved'"))
                   {
                     $num1 =  mysql_num_rows($data1);
                     $credit= $num1*25;
